@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scripts/Player.gd" type="Script" id=1]
+[ext_resource path="res://Sprites/quadrado-preto-1.png" type="Texture" id=2]
+[ext_resource path="res://Sprites/OIP.png" type="Texture" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 58, 47.25 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 47.25, 42.25 )
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Player" type="KinematicBody2D" parent="."]
+position = Vector2( -7, 2 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="Player"]
+position = Vector2( -1, 1 )
+scale = Vector2( 0.0545238, 0.0447619 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2( -3, 2.75 )
+shape = SubResource( 1 )
+
+[node name="Fireball" type="Area2D" parent="."]
+
+[node name="Sprite" type="Sprite" parent="Fireball"]
+position = Vector2( -10, 4 )
+scale = Vector2( 0.219409, 0.186709 )
+texture = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fireball"]
+position = Vector2( -10, 4 )
+shape = SubResource( 2 )
