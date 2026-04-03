@@ -1,3 +1,106 @@
-[gd_scene format=2]
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Scenes/InventoryUI.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/fase1.gd" type="Script" id=2]
+[ext_resource path="res://Instantiables/Item.tscn" type="PackedScene" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/player.gd" type="Script" id=5]
+[ext_resource path="res://sucata.png" type="Texture" id=6]
+[ext_resource path="res://energetico.png" type="Texture" id=7]
+[ext_resource path="res://knife.png" type="Texture" id=8]
+[ext_resource path="res://pizza-slice.png" type="Texture" id=9]
+[ext_resource path="res://rope.png" type="Texture" id=10]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 34, 36.5 )
 
 [node name="Fase1" type="Node2D"]
+script = ExtResource( 2 )
+
+[node name="UICanvas" type="CanvasLayer" parent="."]
+
+[node name="InventoryUI" parent="UICanvas" instance=ExtResource( 1 )]
+margin_left = 2.0
+margin_top = 19.0
+margin_right = 2.0
+margin_bottom = 19.0
+
+[node name="Item" parent="." instance=ExtResource( 3 )]
+position = Vector2( 144, -76 )
+
+[node name="Sprite" parent="Item" index="0"]
+position = Vector2( 463, 132 )
+scale = Vector2( 0.0539063, 0.0578125 )
+texture = ExtResource( 6 )
+
+[node name="CollisionShape2D" parent="Item" index="1"]
+position = Vector2( 463, 130 )
+
+[node name="Item2" parent="." instance=ExtResource( 3 )]
+position = Vector2( 101, 13 )
+nome_item = "Energetico"
+tipo_item = "Energia"
+quantidade = 2
+
+[node name="Sprite" parent="Item2" index="0"]
+position = Vector2( 599, 39.275 )
+scale = Vector2( 0.0582873, 0.0410333 )
+texture = ExtResource( 7 )
+
+[node name="CollisionShape2D" parent="Item2" index="1"]
+position = Vector2( 599, 38 )
+
+[node name="Item3" parent="." instance=ExtResource( 3 )]
+position = Vector2( -472, -105 )
+nome_item = "Canivete"
+tipo_item = "Arma"
+
+[node name="Sprite" parent="Item3" index="0"]
+position = Vector2( 671, 186 )
+scale = Vector2( 0.0539063, 0.0578125 )
+texture = ExtResource( 8 )
+
+[node name="CollisionShape2D" parent="Item3" index="1"]
+position = Vector2( 671, 184 )
+
+[node name="Item4" parent="." instance=ExtResource( 3 )]
+position = Vector2( -385, -76 )
+nome_item = "Pizza"
+
+[node name="Sprite" parent="Item4" index="0"]
+position = Vector2( 701.7, 191.8 )
+scale = Vector2( 0.0519526, 0.0617188 )
+texture = ExtResource( 9 )
+
+[node name="CollisionShape2D" parent="Item4" index="1"]
+position = Vector2( 703, 187 )
+
+[node name="Item5" parent="." instance=ExtResource( 3 )]
+position = Vector2( 76, -139 )
+nome_item = "Corda"
+tipo_item = "Equipamento"
+
+[node name="Sprite" parent="Item5" index="0"]
+position = Vector2( 574, 246 )
+scale = Vector2( 0.0617188, 0.0617187 )
+texture = ExtResource( 10 )
+
+[node name="CollisionShape2D" parent="Item5" index="1"]
+position = Vector2( 573, 245 )
+
+[node name="Player" type="KinematicBody2D" parent="."]
+script = ExtResource( 5 )
+
+[node name="Sprite" type="Sprite" parent="Player"]
+position = Vector2( 524, 88 )
+texture = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+position = Vector2( 523, 87.5 )
+shape = SubResource( 1 )
+
+[editable path="Item"]
+[editable path="Item2"]
+[editable path="Item3"]
+[editable path="Item4"]
+[editable path="Item5"]
