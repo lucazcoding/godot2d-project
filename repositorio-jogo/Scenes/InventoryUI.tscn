@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scripts/inventory_ui.gd" type="Script" id=1]
+[ext_resource path="res://Instantiables/Slot.tscn" type="PackedScene" id=2]
+
+[node name="InventoryUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+slot_scene = ExtResource( 2 )
+
+[node name="Panel" type="Panel" parent="."]
+margin_left = 175.0
+margin_top = 125.0
+margin_right = 825.0
+margin_bottom = 475.0
+rect_min_size = Vector2( 650, 350 )
+
+[node name="Container" type="GridContainer" parent="Panel"]
+margin_left = 20.0
+margin_top = 20.0
+margin_right = 60.0
+margin_bottom = 60.0
+columns = 10
+
+[node name="instruction" type="Label" parent="Panel"]
+margin_left = 27.0
+margin_top = 319.0
+margin_right = 364.0
+margin_bottom = 333.0
+text = "Pressione a tecla X para remover o item selecionado"
+
+[node name="MenuBotoes" type="HBoxContainer" parent="Panel"]
+margin_left = 457.0
+margin_top = 301.0
+margin_right = 642.0
+margin_bottom = 341.0
+
+[node name="BtnOrdenar" type="Button" parent="Panel/MenuBotoes"]
+margin_right = 64.0
+margin_bottom = 40.0
+text = "Ordenar"
+align = 2
+icon_align = 2
+
+[node name="BtnTodos" type="Button" parent="Panel/MenuBotoes"]
+margin_left = 68.0
+margin_right = 118.0
+margin_bottom = 40.0
+text = "Todos"
+align = 2
+icon_align = 2
+
+[node name="BtnRecurso" type="Button" parent="Panel/MenuBotoes"]
+margin_left = 122.0
+margin_right = 185.0
+margin_bottom = 40.0
+text = "Recurso"
+align = 2
+icon_align = 2
