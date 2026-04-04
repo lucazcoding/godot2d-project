@@ -1,0 +1,33 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scripts/UI/menu_inicial.gd" type="Script" id=1]
+
+[node name="VBoxContainer" type="VBoxContainer"]
+anchor_left = 0.25
+anchor_top = 0.2
+anchor_right = 0.75
+anchor_bottom = 0.8
+margin_right = 40.0
+margin_bottom = 40.0
+custom_constants/separation = 30
+alignment = 1
+script = ExtResource( 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_top = 143.0
+margin_right = 552.0
+margin_bottom = 157.0
+text = "DEAD EMBER"
+align = 1
+
+[node name="JogarButton" type="Button" parent="."]
+margin_top = 187.0
+margin_right = 552.0
+margin_bottom = 207.0
+text = "JOGAR"
+
+[node name="SairButton" type="Button" parent="."]
+margin_top = 237.0
+margin_right = 552.0
+margin_bottom = 257.0
+text = "SAIR"
