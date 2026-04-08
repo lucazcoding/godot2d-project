@@ -1,7 +1,7 @@
 extends KinematicBody2D
 
 # ================= CONFIGURAÇÃO =================
-var velocidade = 120
+var velocidade = 250
 var life = 5
 var tamanho_grid = 16
 
@@ -97,9 +97,15 @@ func _navegavel_mais_proximo(celula):
 # ================= FÍSICA =================
 func _physics_process(delta):
 	if not perseguindo:
+		if $AudioStreamPlayer2D.playing:
+			$AudioStreamPlayer2D.stop()
 		return
 
+	if not $AudioStreamPlayer2D.playing:
+		$AudioStreamPlayer2D.play()
+	
 	# Recalcula o caminho periodicamente enquanto persegue
+	
 	timer_recalculo += delta
 	if timer_recalculo >= INTERVALO_RECALCULO:
 		timer_recalculo = 0.0
@@ -149,6 +155,7 @@ func _on_Area2D_body_entered(body):
 	if body.name == "Player":
 		perseguindo = true
 		_recalcular_caminho()
+		
 
 func _on_Area2D_body_exited(body):
 	if body.name == "Player":
