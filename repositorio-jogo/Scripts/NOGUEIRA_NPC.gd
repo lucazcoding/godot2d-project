@@ -6,40 +6,40 @@ var no_atual = 0
 
 var arvore = [
 	# no 0 - inicio
-{
-		"fala": "Ei... você aí... Eu sou apenas um fazendeiro. Minha filha... ela desapareceu depois que esses zumbis apareceram...",
+	{
+		"fala": "Ei... voce ai... Eu sou apenas um fazendeiro. Minha filha... ela desapareceu depois que esses zumbis apareceram...",
 		"opcoes": [
 			{"texto": "O que aconteceu?", "proximo": 1},
-			{"texto": "Não posso ajudar", "proximo": 2}
+			{"texto": "Nao posso ajudar", "proximo": 2}
 		]
 	},
 
 	# nó 1 - explicação
 	{
-		"fala": "Essas criaturas tomaram conta das terras. Eu preciso eliminar pelo menos 10 zumbis para conseguir abrir o portão da fazenda... talvez ela esteja lá dentro.",
+		"fala": "Essas criaturas tomaram conta das terras. Eu preciso eliminar pelo menos 10 zumbis para conseguir abrir o portao da fazenda... talvez ela esteja la dentro.",
 		"opcoes": [
-			{"texto": "Eu ajudo você", "proximo": 3},
-			{"texto": "Isso é perigoso demais", "proximo": 2}
+			{"texto": "Eu ajudo voce", "proximo": 3},
+			{"texto": "Isso e perigoso demais", "proximo": 2}
 		]
 	},
 
 	# nó 2 - despedida
 	{
-		"fala": "Entendo... ninguém quer se arriscar hoje em dia. Mas se mudar de ideia, estarei aqui.",
+		"fala": "Entendo... ninguem quer se arriscar hoje em dia. Mas se mudar de ideia, estarei aqui.",
 		"opcoes": []
 	},
 
 	# nó 3 - missão aceita
 	{
-		"fala": "Obrigado... de verdade. Derrote 10 zumbis e o portão será liberado. Eu... eu só quero ver minha filha novamente.",
+		"fala": "Obrigado... de verdade. Derrote 10 zumbis e o portao sera liberado. Eu... eu so quero ver minha filha novamente.",
 		"opcoes": [
 			{"texto": "Vou acabar com eles", "proximo": 4}
 		]
 	},
 
-	# nó 4 - final / lembrete
+	# nó 4 - final
 	{
-		"fala": "Por favor, tenha cuidado lá fora... esses monstros não eram assim antes...",
+		"fala": "Por favor, tenha cuidado la fora... esses monstros nao eram assim antes...",
 		"opcoes": []
 	}
 ]
