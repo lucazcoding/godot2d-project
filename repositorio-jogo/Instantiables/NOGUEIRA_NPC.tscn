@@ -65,6 +65,7 @@ position = Vector2( 0.500011, 0.499988 )
 shape = SubResource( 11 )
 
 [node name="ApertePraFalar" type="Label" parent="."]
+visible = false
 margin_left = -780.0
 margin_top = -280.0
 margin_right = 775.0

@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/freesound_community-piano_violin-freesound-26340.mp3-33c664b8e63a6ba94e254f1148054c9d.mp3str"
+
+[deps]
+
+source_file="res://Resources/freesound_community-piano_violin-freesound-26340.mp3"
+dest_files=[ "res://.import/freesound_community-piano_violin-freesound-26340.mp3-33c664b8e63a6ba94e254f1148054c9d.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

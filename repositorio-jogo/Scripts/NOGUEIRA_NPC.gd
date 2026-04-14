@@ -5,33 +5,42 @@ var dialogo_ativo = false
 var no_atual = 0
 
 var arvore = [
-	# nó 0 - início
-	{
-		"fala": "Ei... você aí... eu preciso de ajuda. Minha filha desapareceu depois que esses zumbis apareceram na fazenda...",
+	# no 0 - inicio
+{
+		"fala": "Ei... você aí... Eu sou apenas um fazendeiro. Minha filha... ela desapareceu depois que esses zumbis apareceram...",
 		"opcoes": [
 			{"texto": "O que aconteceu?", "proximo": 1},
 			{"texto": "Não posso ajudar", "proximo": 2}
 		]
 	},
-	# nó 1 - explica missão
+
+	# nó 1 - explicação
 	{
-		"fala": "Essas criaturas tomaram conta do lugar... O portão principal está travado. Acho que só eliminando alguns deles conseguimos liberar a passagem.",
+		"fala": "Essas criaturas tomaram conta das terras. Eu preciso eliminar pelo menos 10 zumbis para conseguir abrir o portão da fazenda... talvez ela esteja lá dentro.",
 		"opcoes": [
-			{"texto": "Quantos preciso derrotar?", "proximo": 3},
+			{"texto": "Eu ajudo você", "proximo": 3},
 			{"texto": "Isso é perigoso demais", "proximo": 2}
 		]
 	},
+
 	# nó 2 - despedida
 	{
-		"fala": "Entendo... se mudar de ideia, estarei aqui. Eu não posso desistir dela...",
+		"fala": "Entendo... ninguém quer se arriscar hoje em dia. Mas se mudar de ideia, estarei aqui.",
 		"opcoes": []
 	},
-	# nó 3 - missão definida
+
+	# nó 3 - missão aceita
 	{
-		"fala": "Mate 10 zumbis... isso deve enfraquecer o controle deles sobre o portão. Por favor... traga minha filha de volta...",
+		"fala": "Obrigado... de verdade. Derrote 10 zumbis e o portão será liberado. Eu... eu só quero ver minha filha novamente.",
 		"opcoes": [
-			{"texto": "Vou ajudar", "proximo": 2}
+			{"texto": "Vou acabar com eles", "proximo": 4}
 		]
+	},
+
+	# nó 4 - final / lembrete
+	{
+		"fala": "Por favor, tenha cuidado lá fora... esses monstros não eram assim antes...",
+		"opcoes": []
 	}
 ]
 
@@ -62,7 +71,7 @@ func mostrar_no(indice):
 		# Fim do diálogo, esconde botões
 		$Yes.visible = false
 		$No.visible = false
-		yield(get_tree().create_timer(2.0), "timeout")
+		yield(get_tree().create_timer(5.0), "timeout")
 		finalizar_dialogo()
 	else:
 		# Mostra Yes sempre que tiver opção
@@ -103,13 +112,8 @@ func _on_Area2D_body_entered(body):
 func _on_Area2D_body_exited(body):
 	if body.name == "Player":
 		playerEntrou = false
-		
-		# Esconde tudo
 		$ApertePraFalar.visible = false
 		$Texto.visible = false
 		$Yes.visible = false
 		$No.visible = false
-		
-		# Reseta completamente o diálogo
 		dialogo_ativo = false
-		no_atual = 0

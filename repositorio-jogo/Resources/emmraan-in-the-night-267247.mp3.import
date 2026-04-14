@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/emmraan-in-the-night-267247.mp3-80776a12416fb5d661b946a719fdcace.mp3str"
+
+[deps]
+
+source_file="res://Resources/emmraan-in-the-night-267247.mp3"
+dest_files=[ "res://.import/emmraan-in-the-night-267247.mp3-80776a12416fb5d661b946a719fdcace.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0
