@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Instantiables/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Instantiables/Enemy.tscn" type="PackedScene" id=2]
@@ -13,7 +13,6 @@
 [ext_resource path="res://Resources/Games.ttf" type="DynamicFontData" id=11]
 [ext_resource path="res://Instantiables/NPC3.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Resources/emmraan-in-the-night-267247.mp3" type="AudioStream" id=13]
-[ext_resource path="res://Instantiables/NOGUEIRA_NPC.tscn" type="PackedScene" id=14]
 
 [sub_resource type="NavigationPolygon" id=5]
 vertices = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
@@ -170,6 +169,3 @@ autoplay = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0, 0, 0, 1 )
-
-[node name="NOGUEIRA_NPC" parent="." instance=ExtResource( 14 )]
-position = Vector2( -333, 252 )

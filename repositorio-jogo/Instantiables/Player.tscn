@@ -55,7 +55,6 @@ value = 5.0
 percent_visible = false
 
 [node name="Light2D" type="Light2D" parent="."]
-scale = Vector2( 1, 1 )
 texture = ExtResource( 3 )
 texture_scale = 4.0
 shadow_enabled = true
