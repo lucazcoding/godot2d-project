@@ -119,5 +119,6 @@ texture_hover = ExtResource( 3 )
 expand = true
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
 [connection signal="pressed" from="Yes" to="." method="_on_Yes_pressed"]
 [connection signal="pressed" from="No" to="." method="_on_No_pressed"]
