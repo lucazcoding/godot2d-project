@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Instantiables/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Instantiables/Enemy.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://Instantiables/NPC2.tscn" type="PackedScene" id=9]
 [ext_resource path="res://Prefabs/Spawner.tscn" type="PackedScene" id=10]
 [ext_resource path="res://Resources/Games.ttf" type="DynamicFontData" id=11]
+[ext_resource path="res://Instantiables/NOGUEIRA_NPC.tscn" type="PackedScene" id=12]
 
 [sub_resource type="NavigationPolygon" id=5]
 vertices = PoolVector2Array( 32, 32, 0, 32, 0, 0, 32, 0 )
@@ -141,7 +142,7 @@ position = Vector2( 631, 329 )
 position = Vector2( 615, 329 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( -342, 324 )
+position = Vector2( 809, 268 )
 collision_layer = 513
 
 [node name="Enemy2" parent="." instance=ExtResource( 2 )]
@@ -152,3 +153,6 @@ position = Vector2( 903, 222 )
 
 [node name="Spawner" parent="." instance=ExtResource( 10 )]
 position = Vector2( 1605, 302 )
+
+[node name="NOGUEIRA_NPC" parent="." instance=ExtResource( 12 )]
+position = Vector2( -331, 372 )
