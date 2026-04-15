@@ -63,7 +63,7 @@ var arvore = [
 ]
 
 # -----------------------------------------------
-# READY - tudo comeca escondido
+# READY - tudo começa escondido
 # -----------------------------------------------
 func _ready():
 	$Yes.visible = false
@@ -86,12 +86,16 @@ func mostrar_no(indice):
 	$Texto.text = no.fala
 
 	if no.opcoes.size() == 0:
+		# Fim do diálogo, esconde botões
 		$Yes.visible = false
 		$No.visible = false
 		yield(get_tree().create_timer(5.0), "timeout")
 		finalizar_dialogo()
 	else:
+		# Mostra Yes sempre que tiver opção
 		$Yes.visible = true
+
+		# Só mostra No se tiver segunda opção
 		if no.opcoes.size() > 1:
 			$No.visible = true
 		else:

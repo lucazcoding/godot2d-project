@@ -48,16 +48,16 @@ animations = [ {
 radius = 61.0
 height = 45.0
 
-[sub_resource type="DynamicFont" id=9]
-size = 93
-font_data = ExtResource( 1 )
-
 [sub_resource type="DynamicFont" id=10]
 size = 93
 font_data = ExtResource( 1 )
 
 [sub_resource type="CircleShape2D" id=11]
 radius = 850.0
+
+[sub_resource type="DynamicFont" id=9]
+size = 93
+font_data = ExtResource( 1 )
 
 [node name="VINICIUS_NPC" type="KinematicBody2D"]
 scale = Vector2( 0.04, 0.04 )
@@ -71,19 +71,6 @@ playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 8 )
-
-[node name="Label" type="Label" parent="CollisionShape2D"]
-visible = false
-margin_left = -780.0
-margin_top = -280.0
-margin_right = 775.0
-margin_bottom = -110.0
-custom_colors/font_color = Color( 0.835938, 0.823335, 0.0293884, 1 )
-custom_fonts/font = SubResource( 9 )
-text = "Aperte Espaco para falar"
-align = 1
-valign = 1
-autowrap = true
 
 [node name="Texto" type="Label" parent="."]
 margin_left = -1225.0
@@ -118,6 +105,20 @@ margin_bottom = -135.0
 texture_normal = ExtResource( 5 )
 expand = true
 
+[node name="Label" type="Label" parent="."]
+visible = false
+margin_left = -780.0
+margin_top = -280.0
+margin_right = 775.0
+margin_bottom = -110.0
+custom_colors/font_color = Color( 0.835938, 0.823335, 0.0293884, 1 )
+custom_fonts/font = SubResource( 9 )
+text = "Aperte Espaco para falar"
+align = 1
+valign = 1
+autowrap = true
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_Area2D_body_exited"]
 [connection signal="pressed" from="Yes" to="." method="_on_Yes_pressed"]
 [connection signal="pressed" from="No" to="." method="_on_No_pressed"]
