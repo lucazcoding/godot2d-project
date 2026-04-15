@@ -1,0 +1,123 @@
+[gd_scene load_steps=17 format=2]
+
+[ext_resource path="res://Resources/Games.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://Scripts/VINICIUS_NPC.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier/Soldier-Idle.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/yes_button-removebg-preview.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/no_button-removebg-preview.png" type="Texture" id=5]
+
+[sub_resource type="AtlasTexture" id=1]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=2]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 100, 0, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=3]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 200, 0, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=4]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 300, 0, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=5]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 400, 0, 100, 100 )
+
+[sub_resource type="AtlasTexture" id=6]
+flags = 4
+atlas = ExtResource( 3 )
+region = Rect2( 500, 0, 100, 100 )
+
+[sub_resource type="SpriteFrames" id=7]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ), SubResource( 5 ), SubResource( 6 ) ],
+"loop": true,
+"name": "default",
+"speed": 10.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=8]
+radius = 61.0
+height = 45.0
+
+[sub_resource type="DynamicFont" id=9]
+size = 93
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=10]
+size = 93
+font_data = ExtResource( 1 )
+
+[sub_resource type="CircleShape2D" id=11]
+radius = 850.0
+
+[node name="VINICIUS_NPC" type="KinematicBody2D"]
+scale = Vector2( 0.04, 0.04 )
+script = ExtResource( 2 )
+
+[node name="Sprite" type="AnimatedSprite" parent="."]
+modulate = Color( 0.270588, 0.423529, 0.823529, 1 )
+scale = Vector2( 10, 10 )
+frames = SubResource( 7 )
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 8 )
+
+[node name="Label" type="Label" parent="CollisionShape2D"]
+visible = false
+margin_left = -780.0
+margin_top = -280.0
+margin_right = 775.0
+margin_bottom = -110.0
+custom_colors/font_color = Color( 0.835938, 0.823335, 0.0293884, 1 )
+custom_fonts/font = SubResource( 9 )
+text = "Aperte Espaco para falar"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Texto" type="Label" parent="."]
+margin_left = -1225.0
+margin_top = -625.0
+margin_right = 1230.0
+margin_bottom = -455.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 10 )
+text = "Olá jogador"
+align = 1
+valign = 1
+autowrap = true
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource( 11 )
+
+[node name="Yes" type="TextureButton" parent="."]
+margin_left = -230.0
+margin_top = -275.0
+margin_right = -45.0
+margin_bottom = -135.0
+texture_normal = ExtResource( 4 )
+expand = true
+
+[node name="No" type="TextureButton" parent="."]
+margin_left = 60.0
+margin_top = -275.0
+margin_right = 245.0
+margin_bottom = -135.0
+texture_normal = ExtResource( 5 )
+expand = true
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_Area2D_body_entered"]
+[connection signal="pressed" from="Yes" to="." method="_on_Yes_pressed"]
+[connection signal="pressed" from="No" to="." method="_on_No_pressed"]

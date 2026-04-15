@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/dragon-studio-zombie-sound-2-357976.mp3-70cdf05ab02515e7962ea02e503f45fc.mp3str"
+
+[deps]
+
+source_file="res://Resources/dragon-studio-zombie-sound-2-357976.mp3"
+dest_files=[ "res://.import/dragon-studio-zombie-sound-2-357976.mp3-70cdf05ab02515e7962ea02e503f45fc.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Sprites/item_slot_background.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/scriptSlot.gd" type="Script" id=3]
+
+[node name="Slot" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -994.0
+margin_bottom = -570.0
+rect_min_size = Vector2( 60, 60 )
+script = ExtResource( 3 )
+
+[node name="Background" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 1 )
+expand = true
+
+[node name="Item_Sprite" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+expand = true
+
+[node name="Amount" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -26.5
+margin_top = -14.0
+margin_right = 26.5
+custom_colors/font_color = Color( 0.996078, 0, 0, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+align = 1
