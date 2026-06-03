@@ -1,0 +1,28 @@
+# PR - Implementação de IA de Aproximação dos Inimigos ao Player
+
+## Descrição
+
+Implementada a lógica de perseguição do inimigo utilizando o algoritmo A* (A-Star) para cálculo de caminho até o jogador.
+
+## Funcionalidades Implementadas
+
+* Detecção do jogador através de Area2D.
+* Início da perseguição ao entrar no raio de visão.
+* Interrupção da perseguição ao sair do raio de visão.
+* Cálculo dinâmico de rotas utilizando algoritmo A*.
+* Recalculo periódico do caminho para acompanhar a movimentação do jogador.
+* Navegação considerando obstáculos do mapa.
+
+## Detalhes Técnicos
+
+O algoritmo A* foi implementado para encontrar o menor caminho entre a posição atual do inimigo e a posição do jogador, utilizando os tiles navegáveis definidos no TileMap de navegação.
+
+A solução considera:
+
+* Heurística baseada em distância euclidiana.
+* Evitação de obstáculos.
+* Atualização contínua da rota durante a perseguição.
+
+## Resultado
+
+O inimigo é capaz de detectar o jogador dentro do raio de visão e persegui-lo através do cenário utilizando navegação inteligente baseada em busca heurística.
