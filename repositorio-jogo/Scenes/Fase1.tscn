@@ -168,4 +168,4 @@ pitch_scale = 0.96
 autoplay = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-color = Color( 0, 0, 0, 1 )
+color = Color( 0.35, 0.3, 0.28, 1 )

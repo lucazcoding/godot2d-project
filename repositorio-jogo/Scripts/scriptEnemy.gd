@@ -14,7 +14,7 @@ var indice_caminho = 0
 onready var tilemap_nav = $"../TileMapNavigation"
 onready var tilemap_obs = $"../TileMapObstaculos"
 
-var tiles_navegaveis = []
+var tiles_navegaveis = {}
 
 var timer_recalculo = 0.0
 const INTERVALO_RECALCULO = 0.3 
@@ -37,10 +37,10 @@ func _configurar_tiles():
 	for x in range(area.position.x, area.position.x + area.size.x):
 		for y in range(area.position.y, area.position.y + area.size.y):
 			if tilemap_nav.get_cell(x, y) != -1 and tilemap_obs.get_cell(x, y) == -1:
-				tiles_navegaveis.append(Vector2(x, y))
+				tiles_navegaveis[Vector2(x, y)] = true
 
 func _e_navegavel(celula):
-	return celula in tiles_navegaveis
+	return tiles_navegaveis.has(celula)
 
 # ================= A* =================
 func _astar(inicio, destino):
@@ -85,9 +85,9 @@ func _reconstruir_caminho(veio_de, atual):
 	return caminho_final
 
 func _navegavel_mais_proximo(celula):
-	var melhor = tiles_navegaveis[0]
+	var melhor = tiles_navegaveis.keys()[0]
 	var distancia = celula.distance_squared_to(melhor)
-	for tile in tiles_navegaveis:
+	for tile in tiles_navegaveis.keys():
 		var d = celula.distance_squared_to(tile)
 		if d < distancia:
 			distancia = d
