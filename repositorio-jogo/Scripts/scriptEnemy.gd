@@ -17,7 +17,14 @@ onready var tilemap_obs = $"../TileMapObstaculos"
 var tiles_navegaveis = {}
 
 var timer_recalculo = 0.0
-const INTERVALO_RECALCULO = 0.3 
+const INTERVALO_RECALCULO = 0.3
+
+enum Estado { PATRULHANDO, PERSEGUINDO }
+var estado = Estado.PATRULHANDO
+var destino_patrulha = null
+var timer_patrulha = 0.0
+const INTERVALO_PATRULHA = 3.0
+const RAIO_BFS = 8
 
 # ================= PRONTO =================
 func _ready():
@@ -99,13 +106,14 @@ func _physics_process(delta):
 	if not perseguindo:
 		if $AudioStreamPlayer2D.playing:
 			$AudioStreamPlayer2D.stop()
+		estado = Estado.PATRULHANDO
+		_atualizar_patrulha(delta)
 		return
 
+	estado = Estado.PERSEGUINDO
 	if not $AudioStreamPlayer2D.playing:
 		$AudioStreamPlayer2D.play()
-	
-	# Recalcula o caminho periodicamente enquanto persegue
-	
+
 	timer_recalculo += delta
 	if timer_recalculo >= INTERVALO_RECALCULO:
 		timer_recalculo = 0.0
@@ -149,6 +157,59 @@ func _recalcular_caminho():
 	
 	# ✅ Pula o primeiro tile (é onde o inimigo já está)
 	indice_caminho = 1 if caminho.size() > 1 else 0
+
+func _atualizar_patrulha(delta: float) -> void:
+	timer_patrulha += delta
+	if timer_patrulha < INTERVALO_PATRULHA:
+		if destino_patrulha != null:
+			_seguir_caminho(delta)
+		return
+
+	timer_patrulha = 0.0
+	destino_patrulha = _bfs_territorio()
+	if destino_patrulha == null:
+		return
+
+	var inicio = tilemap_nav.world_to_map(global_position)
+	if not _e_navegavel(inicio):
+		inicio = _navegavel_mais_proximo(inicio)
+
+	caminho = _astar(inicio, destino_patrulha)
+	indice_caminho = 1 if caminho.size() > 1 else 0
+
+func _bfs_territorio():
+	# BFS flood-fill: escaneia todos os tiles navegáveis
+	# dentro de RAIO_BFS tiles a partir da posição atual
+	var origem = tilemap_nav.world_to_map(global_position)
+	if not _e_navegavel(origem):
+		origem = _navegavel_mais_proximo(origem)
+
+	var visitados = {}
+	var fila = [origem]
+	visitados[origem] = true
+	var tiles_validos = []
+
+	while fila.size() > 0:
+		var atual = fila.pop_front()
+		var distancia = int(abs(atual.x - origem.x) + abs(atual.y - origem.y))
+
+		if distancia > RAIO_BFS:
+			continue
+
+		if distancia > 1:
+			tiles_validos.append(atual)
+
+		for direcao in [Vector2(1,0), Vector2(-1,0), Vector2(0,1), Vector2(0,-1)]:
+			var vizinho = atual + direcao
+			if not visitados.has(vizinho) and _e_navegavel(vizinho):
+				visitados[vizinho] = true
+				fila.append(vizinho)
+
+	if tiles_validos.size() == 0:
+		return null
+
+	# Sorteia um tile válido do território escaneado
+	return tiles_validos[randi() % tiles_validos.size()]
 
 # ================= DETECÇÃO =================
 func _on_Area2D_body_entered(body):

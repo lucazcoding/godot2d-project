@@ -17,14 +17,32 @@ onready var tilemap_obs = $"../TileMapObstaculos"
 var tiles_navegaveis = {}
 
 var tsp_ativo = false
-var tsp_caminhos = []
 var tsp_ordem = []
 var tsp_pulso = 0.0
 var tsp_pulso_vel = 2.0  # pulses per second
+var tsp_cores = []  # Color per item based on heat priority
+var tsp_proximo_caminho = []
+var linha_tsp = Line2D.new()
 
 # ================= PRONTO =================
 func _ready():
 	_configurar_tiles()
+	linha_tsp.width = 4.0
+	linha_tsp.z_index = 50
+	linha_tsp.default_color = Color(0.9, 0.8, 0.5, 0.9)
+	linha_tsp.joint_mode = Line2D.LINE_JOINT_ROUND
+	linha_tsp.begin_cap_mode = Line2D.LINE_CAP_ROUND
+	linha_tsp.end_cap_mode = Line2D.LINE_CAP_ROUND
+	get_parent().call_deferred("add_child", linha_tsp)
+
+func _atualizar_linha_tsp() -> void:
+	var pontos = PoolVector2Array()
+	if tsp_ativo and tsp_proximo_caminho.size() >= 2:
+		var offset_centro = tilemap_nav.cell_size / 2.0
+		for tile in tsp_proximo_caminho:
+			var pos_central = tilemap_nav.map_to_world(tile) + offset_centro
+			pontos.append(pos_central)
+	linha_tsp.points = pontos
 
 # ================= FÍSICA =================
 func _physics_process(delta):
@@ -53,8 +71,10 @@ func _input(event):
 		if tsp_ativo:
 			_calcular_tsp()
 		else:
-			tsp_caminhos = []
 			tsp_ordem = []
+			tsp_cores = []
+			tsp_proximo_caminho = []
+			_atualizar_linha_tsp()
 			update()
 
 func _clicar_destino():
@@ -121,7 +141,7 @@ func _seguir_caminho(delta):
 # ================= TSP =================
 func _ordenar_por_distancia_player(a, b) -> bool:
 	return global_position.distance_squared_to(a.global_position) < \
-	       global_position.distance_squared_to(b.global_position)
+		   global_position.distance_squared_to(b.global_position)
 
 func _calcular_tsp():
 	var itens = []
@@ -131,6 +151,7 @@ func _calcular_tsp():
 
 	if itens.size() == 0:
 		tsp_ativo = false
+		linha_tsp.points = PoolVector2Array()
 		return
 
 	if itens.size() > 8:
@@ -154,19 +175,16 @@ func _calcular_tsp():
 	var n_total = todos.size()
 
 	var dist = {}
-	var caminhos_cache = {}
 	for i in range(n_total):
 		for j in range(n_total):
 			if i == j:
 				dist[str(i) + "," + str(j)] = 0
-				caminhos_cache[str(i) + "," + str(j)] = []
 				continue
 			var p = _astar(todos[i], todos[j])
 			if p.size() == 0:
 				dist[str(i) + "," + str(j)] = 999999
 			else:
 				dist[str(i) + "," + str(j)] = p.size() - 1
-			caminhos_cache[str(i) + "," + str(j)] = p
 
 	var ordem_indices
 	if n_itens <= 15:
@@ -174,16 +192,37 @@ func _calcular_tsp():
 	else:
 		ordem_indices = _vizinho_mais_proximo(dist, n_itens)
 
-	tsp_caminhos = []
 	tsp_ordem = []
-	var anterior = 0  # índice do jogador na matriz
 	for idx in ordem_indices:
-		var mat_idx = idx + 1  # +1 porque índice 0 é o jogador
-		var key = str(anterior) + "," + str(mat_idx)
-		tsp_caminhos.append(caminhos_cache[key])
 		tsp_ordem.append(itens[idx])
-		anterior = mat_idx
 
+	tsp_cores = []
+	var n = tsp_ordem.size()
+	for i in range(n):
+		var t = float(i) / max(float(n - 1), 1.0)
+		# t=0 → hot (red), t=1 → cold (green)
+		var r = 1.0
+		var g = t
+		var b = 0.0
+		if t > 0.5:
+			r = 1.0 - (t - 0.5) * 2.0
+			g = 1.0
+			b = 0.0
+		tsp_cores.append(Color(r, g, b, 1.0))
+
+	tsp_proximo_caminho = []
+	if tsp_ordem.size() > 0:
+		var proximo = tsp_ordem[0]
+		if is_instance_valid(proximo):
+			var inicio = tilemap_nav.world_to_map(global_position)
+			var destino = tilemap_nav.world_to_map(proximo.global_position)
+			if not _e_navegavel(inicio):
+				inicio = _navegavel_mais_proximo(inicio)
+			if not _e_navegavel(destino):
+				destino = _navegavel_mais_proximo(destino)
+			tsp_proximo_caminho = _astar(inicio, destino)
+
+	_atualizar_linha_tsp()
 	update()
 
 func _held_karp(dist: Dictionary, n: int) -> Array:
@@ -353,6 +392,8 @@ func _verificar_coleta():
 			var dados = objeto.coletar()
 			_adicionar_ao_inventario(dados)
 			objeto.queue_free()
+			if tsp_ativo:
+				call_deferred("_calcular_tsp")
 
 func _adicionar_ao_inventario(dados):
 	var slots = get_tree().get_nodes_in_group("Slots")
@@ -370,40 +411,8 @@ func _draw():
 		var a = tilemap_nav.map_to_world(caminho[i])     + Vector2(tamanho_grid / 2, tamanho_grid / 2)
 		var b = tilemap_nav.map_to_world(caminho[i + 1]) + Vector2(tamanho_grid / 2, tamanho_grid / 2)
 		draw_line(a - global_position, b - global_position, Color.green, 2)
-	if tsp_ativo and tsp_caminhos.size() > 0:
-		var alpha_base = 0.4 + 0.6 * sin(tsp_pulso * PI)
-
-		# Draw A* path segments with radar glow effect
-		for seg in tsp_caminhos:
-			if seg.size() < 2:
-				continue
-			for i in range(seg.size() - 1):
-				var a = tilemap_nav.map_to_world(seg[i]) + Vector2(tamanho_grid / 2, tamanho_grid / 2) - global_position
-				var b = tilemap_nav.map_to_world(seg[i + 1]) + Vector2(tamanho_grid / 2, tamanho_grid / 2) - global_position
-				# Outer glow (wide, transparent)
-				draw_line(a, b, Color(0, 1, 0.3, 0.15 * alpha_base), 8)
-				# Mid glow
-				draw_line(a, b, Color(0, 1, 0.3, 0.3 * alpha_base), 4)
-				# Core line
-				draw_line(a, b, Color(0.6, 1, 0.6, alpha_base), 2)
-
-		# Radar ping circles at each item stop (expanding ring effect)
-		for i in range(tsp_ordem.size()):
-			var no = tsp_ordem[i]
-			if not is_instance_valid(no):
-				continue
-			var pos = no.global_position - global_position
-
-			# Phase offset per item so they pulse at different times
-			var fase = fmod(tsp_pulso + i * 0.3, 1.0)
-			var raio_externo = 6 + 10 * fase
-			var alpha_anel = (1.0 - fase) * alpha_base
-
-			# Expanding ring
-			draw_circle(pos, raio_externo, Color(0, 1, 0.3, alpha_anel * 0.4))
-			# Static core dot
-			draw_circle(pos, 5, Color(0, 0, 0, 0.8))
-			draw_circle(pos, 4, Color(0, 1, 0.3, 1.0))
+	if tsp_ativo:
+		update()
 
 
 

@@ -1,7 +1,7 @@
 extends TextureRect
 
 # ================= CONFIG =================
-const USAR_HASH := true  # true = hash | false = sort_custom (quicksort)
+const USAR_HASH := false  # true = hash | false = sort_custom (quicksort)
 
 # ================= INVENTÁRIO =================
 func _ready():
@@ -39,8 +39,7 @@ func ordenar_slots() -> void:
 	if USAR_HASH:
 		_distribuir_com_hash(lista_itens, slots, total_slots)
 	else:
-		# QUICKSORT (sort_custom original)
-		lista_itens.sort_custom(self, "comparar_itens")
+		_quicksort(lista_itens, 0, lista_itens.size() - 1)
 		for i in range(lista_itens.size()):
 			_preencher_slot(slots[i], lista_itens[i])
 
@@ -79,6 +78,37 @@ func _preencher_slot(slot, item: Dictionary) -> void:
 	slot.id_atual = item.id
 	slot.get_node("Item_Sprite").texture = item.textura
 	slot.get_node("Amount").text = str(item.quantidade) if item.quantidade > 1 else ""
+
+# ================= QUICKSORT =================
+func _quicksort(arr: Array, baixo: int, alto: int) -> void:
+	if baixo < alto:
+		var p = _particionar(arr, baixo, alto)
+		_quicksort(arr, baixo, p - 1)
+		_quicksort(arr, p + 1, alto)
+
+func _particionar(arr: Array, baixo: int, alto: int) -> int:
+	# Pivô mediano de três: arr[baixo], arr[meio], arr[alto]
+	var meio = baixo + (alto - baixo) / 2
+
+	# Ordena os três para encontrar a mediana
+	if comparar_itens(arr[meio], arr[baixo]):
+		var tmp = arr[baixo]; arr[baixo] = arr[meio]; arr[meio] = tmp
+	if comparar_itens(arr[alto], arr[baixo]):
+		var tmp = arr[baixo]; arr[baixo] = arr[alto]; arr[alto] = tmp
+	if comparar_itens(arr[meio], arr[alto]):
+		var tmp = arr[alto]; arr[alto] = arr[meio]; arr[meio] = tmp
+
+	# arr[alto] é agora o pivô mediano
+	var pivo = arr[alto]
+	var i = baixo - 1
+
+	for j in range(baixo, alto):
+		if comparar_itens(arr[j], pivo) or arr[j].nome == pivo.nome:
+			i += 1
+			var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp
+
+	var tmp = arr[i + 1]; arr[i + 1] = arr[alto]; arr[alto] = tmp
+	return i + 1
 
 # ================= COMPARAÇÃO (quicksort) =================
 func comparar_itens(a, b) -> bool:
