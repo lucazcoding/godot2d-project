@@ -226,8 +226,6 @@ func _calcular_tsp():
 	update()
 
 func _held_karp(dist: Dictionary, n: int) -> Array:
-	# dp[mask_str + "," + str(node)] = custo mínimo para visitar os nós em mask
-	# começando do nó 0 (jogador) e terminando em node (índice de item 1..n)
 	var dp = {}
 	var pai = {}
 
@@ -318,37 +316,43 @@ func _vizinho_mais_proximo(dist: Dictionary, n: int) -> Array:
 
 # ================= PATHFINDING =================
 func _astar(inicio, destino):
-	var abertos = [inicio]
-	var veio_de = {}
-	var custo_g = {inicio: 0}
-	var custo_f = {inicio: inicio.distance_to(destino)}
+	var nos_abertos = [inicio]
+	var rastreio_origem = {}
+	
+	var historico_g = {inicio: 0}
+	var estimativa_f = {inicio: inicio.distance_to(destino)}
 
-	while abertos.size() > 0:
-		var atual = abertos[0]
-		for n in abertos:
-			if custo_f.get(n, INF) < custo_f.get(atual, INF):
-				atual = n
+	while nos_abertos.size() > 0:
+		var no_atual = nos_abertos[0]
+		for candidato in nos_abertos:
+			if estimativa_f.get(candidato, INF) < estimativa_f.get(no_atual, INF):
+				no_atual = candidato
 
-		if atual == destino:
-			return _reconstruir_caminho(veio_de, atual)
+		if no_atual == destino:
+			return _reconstruir_caminho(rastreio_origem, no_atual)
 
-		abertos.erase(atual)
-		for vizinho in _vizinhos(atual):
-			var novo_g = custo_g.get(atual, INF) + 1
-			if novo_g < custo_g.get(vizinho, INF):
-				veio_de[vizinho] = atual
-				custo_g[vizinho] = novo_g
-				custo_f[vizinho] = novo_g + vizinho.distance_to(destino)
-				if not vizinho in abertos:
-					abertos.append(vizinho)
+		nos_abertos.erase(no_atual)
+		
+		for vizinho in _vizinhos(no_atual):
+			var custo_passo = historico_g.get(no_atual, INF) + 1
+			
+			if custo_passo < historico_g.get(vizinho, INF):
+				rastreio_origem[vizinho] = no_atual
+				historico_g[vizinho] = custo_passo
+				estimativa_f[vizinho] = custo_passo + vizinho.distance_to(destino)
+				
+				if not vizinho in nos_abertos:
+					nos_abertos.append(vizinho)
+					
 	return []
 
 func _reconstruir_caminho(veio_de, atual):
-	var caminho_final = [atual]
-	while atual in veio_de:
-		atual = veio_de[atual]
-		caminho_final.insert(0, atual)
-	return caminho_final
+	var rota_reversa = [atual]
+	var no_passo = atual
+	while no_passo in veio_de:
+		no_passo = veio_de[no_passo]
+		rota_reversa.insert(0, no_passo)
+	return rota_reversa
 
 # ================= TILES =================
 func _configurar_tiles():
@@ -414,8 +418,6 @@ func _draw():
 	if tsp_ativo:
 		update()
 
-
-
 func disparar():
 	if Input.is_action_just_pressed("shoot"):
 		var novodisparo = disparo.instance()
@@ -427,10 +429,8 @@ func disparar():
 		
 		get_parent().add_child(novodisparo)
 
-
 func tomar_dano(damage):
 	life -= damage
-
 
 func exibir_hud():
 	$ProgressBar.value = life
@@ -439,4 +439,3 @@ func exibir_hud():
 func verificar_morte():
 	if life <= 0:
 		get_tree().change_scene("res://Instantiables/CenaDeDerrota.tscn")
-		
