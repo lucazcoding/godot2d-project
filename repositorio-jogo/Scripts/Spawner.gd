@@ -20,6 +20,7 @@ func _on_Timer_timeout():
 	# Se já spawnou todos, para o Timer
 	if inimigos_spawnados >= max_spawn:
 		$Timer.stop()
+		$"../SAIDA".visible = true
 		return
 
 	# Cria a instância do inimigo

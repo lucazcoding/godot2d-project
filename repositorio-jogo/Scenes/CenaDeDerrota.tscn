@@ -3,7 +3,7 @@
 [ext_resource path="res://Resources/Games.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Sprites/Ressurgir-04-04-2026.png" type="Texture" id=2]
 [ext_resource path="res://Sprites/ACEITAR-A-PAZ-04-04-2026.png" type="Texture" id=3]
-[ext_resource path="res://Instantiables/CenaDeDerrota.gd" type="Script" id=4]
+[ext_resource path="res://Scripts/CenaDeDerrota.gd" type="Script" id=4]
 [ext_resource path="res://Resources/freesound_community-piano_violin-freesound-26340.mp3" type="AudioStream" id=5]
 
 [sub_resource type="DynamicFont" id=1]

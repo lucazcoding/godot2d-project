@@ -3,32 +3,36 @@ extends KinematicBody2D
 var playerEntrou = false
 var dialogo_ativo = false
 var no_atual = 0
+var fonte = null
 
 var arvore = [
-	# no 0 - inicio
+	# no 0 - aviso inicial
 	{
-		"fala": "Sou o guardiao deste corredor. Antes de seguir preciso te avisar: adiante criaturas espreitam na escuridao.",
+		"fala": "Guerreiro, antes de seguir preciso avisa-lo. A saida deste lugar esta selada. Apenas aqueles que derrotarem todos os inimigos poderao avancar.",
 		"opcoes": [
-			{"texto": "Que tipo de criaturas?", "proximo": 1},
-			{"texto": "Nao me importo vou seguir", "proximo": 2}
+			{"texto": "O que preciso fazer?", "proximo": 1},
+			{"texto": "Vou encontrar meu proprio caminho", "proximo": 2}
 		]
 	},
-	# no 1 - explicacao da missao
+
+	# no 1 - missao
 	{
-		"fala": "Monstros sedentos por batalha. Para provar seu valor e avancar em sua jornada voce deve derrotar 10 deles.",
+		"fala": "Adiante voce enfrentara diversos monstros. Derrote todos eles e o caminho sera liberado. Somente entao podera continuar sua jornada.",
 		"opcoes": [
-			{"texto": "Estou pronto", "proximo": 3},
-			{"texto": "Talvez eu deva me preparar mais", "proximo": 2}
+			{"texto": "Estou pronto para a batalha", "proximo": 3},
+			{"texto": "Preciso me preparar melhor", "proximo": 2}
 		]
 	},
+
 	# no 2 - despedida
 	{
-		"fala": "Entao volte quando estiver pronto. Nem toda coragem nasce da pressa.",
+		"fala": "Entao retorne quando estiver pronto. A saida permanecera fechada ate que todos os inimigos sejam derrotados.",
 		"opcoes": []
 	},
-	# no 3 - aceitou o desafio
+
+	# no 3 - aceitou a missao
 	{
-		"fala": "Va guerreiro. Lembre se nao sao os monstros que definem sua forca mas aquilo que voce escolhe se tornar ao enfrenta los.",
+		"fala": "Va, guerreiro. Enfrente os monstros que habitam este lugar, derrote cada um deles e prove seu valor. Quando o ultimo cair, a saida sera aberta.",
 		"opcoes": []
 	}
 ]
@@ -40,6 +44,12 @@ func _ready():
 	$Yes.visible = false
 	$No.visible = false
 	$Texto.visible = false
+	fonte = $Texto.get_font("font")
+	
+	if fonte:
+		fonte.size = 140
+	else:
+		print("Fonte não encontrada")
 
 func _process(delta):
 	if playerEntrou and Input.is_action_just_pressed("ui_accept") and not dialogo_ativo:
