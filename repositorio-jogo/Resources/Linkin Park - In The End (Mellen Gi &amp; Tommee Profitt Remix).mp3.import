@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Linkin Park - In The End (Mellen Gi &amp; Tommee Profitt Remix).mp3-290172a7f573931d77139f373828feeb.mp3str"
+
+[deps]
+
+source_file="res://Resources/Linkin Park - In The End (Mellen Gi &amp; Tommee Profitt Remix).mp3"
+dest_files=[ "res://.import/Linkin Park - In The End (Mellen Gi &amp; Tommee Profitt Remix).mp3-290172a7f573931d77139f373828feeb.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

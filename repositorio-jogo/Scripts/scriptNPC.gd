@@ -3,35 +3,31 @@ extends KinematicBody2D
 var playerEntrou = false
 var dialogo_ativo = false
 var no_atual = 0
+var fonte = null
+
 
 var arvore = [
-	# nó 0 - início
 	{
-		"fala": "Ola viajante! Posso te ajudar?",
+		"fala": "Eae meu patrão, beleza? Você passou da fase 2 agora. Acha a saída aí pra ganhar!",
 		"opcoes": [
-			{"texto": "Sim", "proximo": 1},
-			{"texto": "Não", "proximo": 2}
+			{
+				"texto": "Partiu!",
+				"proximo": 1
+			}
 		]
 	},
-	# nó 1 - aceitou ajuda
 	{
-		"fala": "Cuidado com a floresta, ha perigos por la. Deseja saber mais?",
+		"fala": "Boa! Vai explorando que a saída não deve estar longe.",
 		"opcoes": [
-			{"texto": "Sim", "proximo": 3},
-			{"texto": "Não", "proximo": 2}
+			{
+				"texto": "Valeu pela dica!",
+				"proximo": 2
+			}
 		]
 	},
-	# nó 2 - despedida
 	{
-		"fala": "Boa sorte viajante!",
+		"fala": "Boa sorte, campeão!",
 		"opcoes": []
-	},
-	# nó 3 - mais informações
-	{
-		"fala": "Dizem que uma criatura vive na floresta. Tenha cuidado!",
-		"opcoes": [
-			{"texto": "Vou tomar cuidado", "proximo": 2}
-		]
 	}
 ]
 
@@ -42,6 +38,12 @@ func _ready():
 	$Yes.visible = false
 	$No.visible = false
 	$Texto.visible = false
+	fonte = $Texto.get_font("font")
+	
+	if fonte:
+		fonte.size = 200
+	else:
+		print("Fonte não encontrada")
 
 func _process(delta):
 	if playerEntrou and Input.is_action_just_pressed("ui_accept") and not dialogo_ativo:

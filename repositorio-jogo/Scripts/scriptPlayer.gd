@@ -438,5 +438,5 @@ func exibir_hud():
 	
 func verificar_morte():
 	if life <= 0:
-		get_tree().change_scene("res://Instantiables/CenaDeDerrota.tscn")
+		get_tree().change_scene("res://Scenes/CenaDeDerrota.tscn")
 		

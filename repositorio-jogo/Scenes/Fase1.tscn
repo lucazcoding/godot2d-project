@@ -1,8 +1,7 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://Instantiables/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Instantiables/Enemy.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Instantiables/NPC.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scripts/SAIDAfase1.gd" type="Script" id=2]
 [ext_resource path="res://Instantiables/Inventory.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Prefabs/Granada.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Prefabs/Esmeralda.tscn" type="PackedScene" id=6]
@@ -74,13 +73,37 @@ font_data = ExtResource( 11 )
 [sub_resource type="StyleBoxFlat" id=10]
 bg_color = Color( 0.0666667, 0.00784314, 0.00784314, 1 )
 
+[sub_resource type="Gradient" id=15]
+offsets = PoolRealArray( 0, 0.160494, 0.57716, 0.929012, 0.972222 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.277543, 0.277543, 0.277543, 1, 1, 1, 1, 1, 0.655629, 0.655629, 0.655629, 1, 0.0463576, 0.0463576, 0.0463576, 1 )
+
+[sub_resource type="GradientTexture2D" id=16]
+gradient = SubResource( 15 )
+
+[sub_resource type="Gradient" id=17]
+offsets = PoolRealArray( 0.0185185, 0.188272, 0.555556 )
+colors = PoolColorArray( 0, 0, 0, 1, 0.948276, 0.948276, 0.948276, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture2D" id=18]
+gradient = SubResource( 17 )
+
+[sub_resource type="Gradient" id=12]
+offsets = PoolRealArray( 0.384196, 0.80654, 1 )
+colors = PoolColorArray( 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture2D" id=13]
+gradient = SubResource( 12 )
+
+[sub_resource type="RectangleShape2D" id=14]
+extents = Vector2( 30.5, 32 )
+
 [node name="Fase1" type="Node2D"]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_left = -4413.0
-margin_top = -3759.0
-margin_right = 5459.0
-margin_bottom = 4050.0
+margin_left = -4448.0
+margin_top = -3787.0
+margin_right = 5424.0
+margin_bottom = 4022.0
 color = Color( 0.00392157, 0.105882, 0.0431373, 1 )
 
 [node name="TileMapNavigation" type="TileMap" parent="."]
@@ -109,16 +132,11 @@ custom_fonts/font = SubResource( 9 )
 custom_styles/normal = SubResource( 10 )
 text = "inventario - e
 pathfinding - shift + lmb
-disparar - f"
+disparar - f
+encontrar item - t"
 align = 1
 valign = 1
 autowrap = true
-
-[node name="NPC" parent="." instance=ExtResource( 3 )]
-position = Vector2( -278, 200 )
-
-[node name="Enemy" parent="." instance=ExtResource( 2 )]
-position = Vector2( 1.99999, 2 )
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -128,39 +146,131 @@ margin_top = 11.0
 margin_right = 634.0
 margin_bottom = 271.0
 
+[node name="Item_Sprite" parent="HUD/Inventario/Container/Slot" index="1"]
+texture = null
+
+[node name="Amount" parent="HUD/Inventario/Container/Slot" index="2"]
+text = ""
+
 [node name="Granada" parent="." instance=ExtResource( 5 )]
-position = Vector2( 573, 378 )
+position = Vector2( 556, 518 )
+
+[node name="Granada2" parent="." instance=ExtResource( 5 )]
+position = Vector2( 906, 533 )
+
+[node name="Granada3" parent="." instance=ExtResource( 5 )]
+position = Vector2( -257, 485 )
+
+[node name="Granada4" parent="." instance=ExtResource( 5 )]
+position = Vector2( -67, 32 )
 
 [node name="Esmeralda" parent="." instance=ExtResource( 6 )]
 position = Vector2( 559, 328 )
 
+[node name="Esmeralda5" parent="." instance=ExtResource( 6 )]
+position = Vector2( 285, 642 )
+
+[node name="Esmeralda7" parent="." instance=ExtResource( 6 )]
+position = Vector2( 638, 651 )
+
+[node name="Esmeralda6" parent="." instance=ExtResource( 6 )]
+position = Vector2( -50, 697 )
+
+[node name="Esmeralda2" parent="." instance=ExtResource( 6 )]
+position = Vector2( -246, 194 )
+
+[node name="Esmeralda3" parent="." instance=ExtResource( 6 )]
+position = Vector2( -6, 185 )
+
+[node name="Esmeralda4" parent="." instance=ExtResource( 6 )]
+position = Vector2( 341, 47 )
+
 [node name="Pocao_vida" parent="." instance=ExtResource( 7 )]
-position = Vector2( 648, 330 )
+position = Vector2( 798, 101 )
 
 [node name="Pocao_vida2" parent="." instance=ExtResource( 7 )]
-position = Vector2( 666, 329 )
+position = Vector2( 278, -129 )
 
 [node name="Pocao_vida3" parent="." instance=ExtResource( 7 )]
 position = Vector2( 631, 329 )
 
 [node name="Pocao_vida4" parent="." instance=ExtResource( 7 )]
-position = Vector2( 615, 329 )
+position = Vector2( -164, 448 )
+
+[node name="Pocao_vida5" parent="." instance=ExtResource( 7 )]
+position = Vector2( -299, 768 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( -342, 324 )
+position = Vector2( -348, 294 )
 collision_layer = 513
-
-[node name="Enemy2" parent="." instance=ExtResource( 2 )]
-position = Vector2( 374, 29 )
 
 [node name="NPC2" parent="." instance=ExtResource( 9 )]
 position = Vector2( 903, 222 )
+
+[node name="Sprite" parent="NPC2" index="0"]
+modulate = Color( 1, 1, 1, 1 )
+self_modulate = Color( 1, 1, 1, 1 )
+position = Vector2( 6.25, 337.5 )
+scale = Vector2( 1.05556, 4.33333 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite2" type="Sprite" parent="NPC2"]
+modulate = Color( 0, 0.694118, 1, 1 )
+self_modulate = Color( 0.741176, 0.235294, 1, 1 )
+position = Vector2( 0, -49.9995 )
+scale = Vector2( 5.91408, 8.45313 )
+texture = SubResource( 16 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="ApertePraFalar" parent="NPC2" index="3"]
+margin_left = -850.0
+margin_top = -725.0
+margin_right = 880.0
+margin_bottom = -325.0
+
+[node name="Texto" parent="NPC2" index="4"]
+margin_left = -1200.0
+margin_top = -1450.0
+margin_right = 1255.0
+margin_bottom = -405.0
+custom_colors/font_color = Color( 0.0745098, 0.992157, 0.152941, 1 )
+custom_colors/font_outline_modulate = Color( 0.890196, 0.890196, 0.890196, 1 )
+
+[node name="Yes" parent="NPC2" index="6"]
+margin_left = -300.0
+margin_top = -375.0
+margin_right = -115.0
+margin_bottom = -235.0
+
+[node name="No" parent="NPC2" index="7"]
+margin_left = 125.0
+margin_top = -375.0
+margin_right = 310.0
+margin_bottom = -235.0
 
 [node name="Spawner" parent="." instance=ExtResource( 10 )]
 position = Vector2( 1605, 302 )
 
 [node name="NPC3" parent="." instance=ExtResource( 12 )]
-position = Vector2( -305, 400 )
+position = Vector2( -177, 237 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite2" type="Sprite" parent="NPC3"]
+modulate = Color( 0.678431, 0.00784314, 0.384314, 1 )
+position = Vector2( 0, 414 )
+scale = Vector2( 2.5, 13.9375 )
+texture = SubResource( 18 )
+
+[node name="Sprite" parent="NPC3" index="1"]
+modulate = Color( 1, 1, 1, 1 )
+self_modulate = Color( 1, 1, 1, 1 )
+z_index = 1
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 13 )
@@ -169,3 +279,31 @@ autoplay = true
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 color = Color( 0.35, 0.3, 0.28, 1 )
+
+[node name="SAIDA" type="Sprite" parent="."]
+visible = false
+modulate = Color( 0.905882, 0.101961, 0.517647, 1 )
+position = Vector2( 1613, 303 )
+rotation = -3.14201
+scale = Vector2( 0.5, 0.5 )
+texture = SubResource( 13 )
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Area2D" type="Area2D" parent="SAIDA"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SAIDA/Area2D"]
+position = Vector2( 0.5, 0 )
+shape = SubResource( 14 )
+
+[connection signal="body_entered" from="SAIDA/Area2D" to="SAIDA" method="_on_Area2D_body_entered"]
+
+[editable path="HUD/Inventario"]
+[editable path="HUD/Inventario/Container/Slot"]
+[editable path="HUD/Inventario/Container/Slot2"]
+[editable path="HUD/Inventario/Container/Slot5"]
+[editable path="HUD/Inventario/Container/Slot6"]
+[editable path="NPC2"]
+[editable path="NPC3"]
