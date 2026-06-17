@@ -1,3 +1,10 @@
+
+
+
+
+
+
+
 extends TextureRect
 
 
@@ -96,15 +103,13 @@ func _preencher_slot(slot, item: Dictionary) -> void:
 	slot.get_node("Item_Sprite").texture = item.textura
 	slot.get_node("Amount").text = str(item.quantidade) if item.quantidade > 1 else ""
 
-
-
+#
 # ================= QUICKSORT =================
 func _quicksort(arr: Array, baixo: int, alto: int) -> void:
 	if baixo < alto:
 		var p = _particionar(arr, baixo, alto)
 		_quicksort(arr, baixo, p - 1)
 		_quicksort(arr, p + 1, alto)
-
 
 
 func _particionar(arr: Array, baixo: int, alto: int) -> int:
@@ -114,7 +119,7 @@ func _particionar(arr: Array, baixo: int, alto: int) -> int:
 	# Verifica e ordena as posições extremas e o meio para garantir a mediana
 
 
-	# Ordena os três para encontrar a mediana
+	#-> Ordena os três para encontrar a mediana
 	if comparar_itens(arr[meio], arr[baixo]):
 		var tmp = arr[baixo]; arr[baixo] = arr[meio]; arr[meio] = tmp
 	if comparar_itens(arr[alto], arr[baixo]):
@@ -122,7 +127,7 @@ func _particionar(arr: Array, baixo: int, alto: int) -> int:
 	if comparar_itens(arr[meio], arr[alto]):
 		var tmp = arr[alto]; arr[alto] = arr[meio]; arr[meio] = tmp
 
-	# arr[alto] é agora o pivô mediano
+	# ---> arr[alto] é agora o pivô mediano
 	var pivo = arr[alto]
 	var i = baixo - 1
 
@@ -130,7 +135,6 @@ func _particionar(arr: Array, baixo: int, alto: int) -> int:
 		if comparar_itens(arr[j], pivo) or arr[j].nome == pivo.nome:
 			i += 1
 			var tmp = arr[i]; arr[i] = arr[j]; arr[j] = tmp
-
 	var tmp = arr[i + 1]; arr[i + 1] = arr[alto]; arr[alto] = tmp
 	return i + 1
 
@@ -138,10 +142,11 @@ func _particionar(arr: Array, baixo: int, alto: int) -> int:
 
 
 # ================= COMPARAÇÃO (quicksort) =================
-func comparar_itens(a, b) -> bool:
-	if a.categoria != b.categoria:
-		return a.categoria < b.categoria
-	return a.nome < b.nome
+
+func comparar_itens(a,b) -> bool:
+	if a.categoria !=b.categoria:
+		return a.categoria< b.categoria
+	return a.nome <b.nome
 
 
 
