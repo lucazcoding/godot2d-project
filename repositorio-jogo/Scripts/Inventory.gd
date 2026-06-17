@@ -1,7 +1,13 @@
 extends TextureRect
 
+
+
+
 # ================= CONFIG =================
 const USAR_HASH := false  # true = hash | false = sort_custom (quicksort)
+
+
+
 
 # ================= INVENTÁRIO =================
 func _ready():
@@ -12,6 +18,9 @@ func _process(_delta):
 		visible = !visible
 		if visible:
 			ordenar_slots()
+
+
+
 
 # ================= ORDENAÇÃO =================
 func ordenar_slots() -> void:
@@ -43,12 +52,17 @@ func ordenar_slots() -> void:
 		for i in range(lista_itens.size()):
 			_preencher_slot(slots[i], lista_itens[i])
 
+
+
+
 # ================= LÓGICA HASH =================
 func _hash_id(id: String, total: int) -> int:
 	var soma := 0
 	for byte in id.to_utf8():
 		soma += byte
 	return soma % total
+
+
 
 func _distribuir_com_hash(itens: Array, slots: Array, total: int) -> void:
 	# Array de controle: marca quais slots já foram ocupados nessa distribuição
@@ -73,11 +87,16 @@ func _distribuir_com_hash(itens: Array, slots: Array, total: int) -> void:
 		if not inserido:
 			print("Inventário cheio! Item não inserido: ", item.id)
 
+
+
+
 # ================= PREENCHER SLOT =================
 func _preencher_slot(slot, item: Dictionary) -> void:
 	slot.id_atual = item.id
 	slot.get_node("Item_Sprite").texture = item.textura
 	slot.get_node("Amount").text = str(item.quantidade) if item.quantidade > 1 else ""
+
+
 
 # ================= QUICKSORT =================
 func _quicksort(arr: Array, baixo: int, alto: int) -> void:
@@ -86,9 +105,14 @@ func _quicksort(arr: Array, baixo: int, alto: int) -> void:
 		_quicksort(arr, baixo, p - 1)
 		_quicksort(arr, p + 1, alto)
 
+
+
 func _particionar(arr: Array, baixo: int, alto: int) -> int:
 	# Pivô mediano de três: arr[baixo], arr[meio], arr[alto]
+	# Calcula o índice central do array ou sub-array atual
 	var meio = baixo + (alto - baixo) / 2
+	# Verifica e ordena as posições extremas e o meio para garantir a mediana
+
 
 	# Ordena os três para encontrar a mediana
 	if comparar_itens(arr[meio], arr[baixo]):
@@ -110,8 +134,19 @@ func _particionar(arr: Array, baixo: int, alto: int) -> int:
 	var tmp = arr[i + 1]; arr[i + 1] = arr[alto]; arr[alto] = tmp
 	return i + 1
 
+
+
+
 # ================= COMPARAÇÃO (quicksort) =================
 func comparar_itens(a, b) -> bool:
 	if a.categoria != b.categoria:
 		return a.categoria < b.categoria
 	return a.nome < b.nome
+
+
+
+# Algoritmo de ordenação QuickSort implementado manualmente.
+# Complexidade média de tempo: O(n log n).
+# O pivô é selecionado através da mediana de três elementos (baixo, meio, alto)
+# para otimizar a performance contra o pior caso O(n^2).
+func _quicksort(lista_itens, baixo, alto):

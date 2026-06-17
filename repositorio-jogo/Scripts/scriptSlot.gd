@@ -11,9 +11,11 @@ var id_atual = ""  # ← id do item que está neste slot
 func _ready():
 	add_to_group("Slots")
 
-# -----------------------------------------------
+# ----------------------------------------------
 # PEGAR ITEM
-# -----------------------------------------------
+# ----------------------------------------------
+
+
 func get_drag_data(position):
 	if $Item_Sprite.texture == null:
 		return null
@@ -45,20 +47,26 @@ func get_drag_data(position):
 		"origem": self
 	}
 
+
 # -----------------------------------------------
 # PERMISSÃO DE DROP
 # -----------------------------------------------
+
 func can_drop_data(position, dados):
 	return is_in_group("Slots")
+
+
 
 # -----------------------------------------------
 # SOLTAR ITEM
 # -----------------------------------------------
+
 func drop_data(position, dados):
 	var origem = dados.get("origem")
 	var id_arrastado = dados.id
 	var textura_arrastada = dados.textura
 	var qtd_arrastada = dados.quantidade
+
 
 	# CASO 1: Slot vazio
 	if $Item_Sprite.texture == null:
@@ -66,6 +74,7 @@ func drop_data(position, dados):
 		$Item_Sprite.texture = textura_arrastada
 		$Amount.text = str(qtd_arrastada)
 		origem.confirmar_drop()
+
 
 	# CASO 2: Mesmo item → empilha
 	elif id_atual == id_arrastado:
@@ -81,6 +90,7 @@ func drop_data(position, dados):
 			origem.restaurar_parcial(id_arrastado, textura_arrastada, sobra)
 			origem.confirmar_drop()
 
+
 	# CASO 3: Item diferente → troca
 	else:
 		var id_destino = id_atual
@@ -94,25 +104,33 @@ func drop_data(position, dados):
 		origem.restaurar_parcial(id_destino, textura_destino, qtd_destino)
 		origem.confirmar_drop()
 
+
 # -----------------------------------------------
 # CONFIRMAR DROP
 # -----------------------------------------------
+
+
 func confirmar_drop():
 	drop_realizado = true
 	item_backup = {}
 	arrastando = false
 
+
 # -----------------------------------------------
 # RESTAURAR PARCIAL
 # -----------------------------------------------
+
 func restaurar_parcial(id, textura, quantidade):
 	id_atual = id
 	$Item_Sprite.texture = textura
 	$Amount.text = str(quantidade)
 
+
 # -----------------------------------------------
 # PROCESS
 # -----------------------------------------------
+
+
 func _process(delta):
 	if arrastando and Input.is_action_just_released("mouse_left"):
 		arrastando = false
@@ -121,9 +139,12 @@ func _process(delta):
 			$Item_Sprite.texture = item_backup.textura
 			$Amount.text = str(item_backup.quantidade)
 
+
 # -----------------------------------------------
 # ADICIONAR ITEM (chamado pela coleta)
 # -----------------------------------------------
+
+
 func tentar_adicionar_item(id, textura, quantidade):
 	# Slot vazio
 	if $Item_Sprite.texture == null:
@@ -145,3 +166,7 @@ func tentar_adicionar_item(id, textura, quantidade):
 
 	# Item diferente, não empilha
 	return quantidade
+
+
+
+
