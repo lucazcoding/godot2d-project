@@ -1,6 +1,10 @@
 # BancoDeItens.gd
 extends Node
 
+# ==========================================
+# CATEGORIA: CONSUMÍVEIS (CURA)
+# ==========================================
+
 var itens = {
 	"pocao_vida": {
 		"id": "pocao_vida",
@@ -9,6 +13,10 @@ var itens = {
 		"quantidade_max": 2,
 		"textura": preload("res://Sprites/pocao_vida.png")
 	},
+
+	# ==========================================
+	# CATEGORIA: MOEDAS E RECURSOS
+	# ==========================================
 	"esmeralda": {
 		"id": "esmeralda",
 		"nome": "Esmeralda",
